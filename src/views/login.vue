@@ -1,6 +1,5 @@
 <template>
   <div>
-    <div class="test">123</div>
     <Alter></Alter>
     <form class="form-signin" @submit.prevent="signin">
       <img class="mb-4" src="/docs/4.4/assets/brand/bootstrap-solid.svg" alt width="72" height="72" />

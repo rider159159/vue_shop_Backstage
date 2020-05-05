@@ -4,7 +4,7 @@ import VueAxios from 'vue-axios'
 import Loading from 'vue-loading-overlay';
 import 'vue-loading-overlay/dist/vue-loading.css';
 import "bootstrap"
-import { ValidationObserver, ValidationProvider, extend, localize} from 'vee-validate';
+import {ValidationObserver, ValidationProvider, extend, localize} from 'vee-validate';
 // 將驗證條件引入
 import * as rules from 'vee-validate/dist/rules';
 // 引入中文化的文件
@@ -65,3 +65,15 @@ router.beforeEach((to, from, next) => {
     next()
   }
 })
+
+// 下三個為 fontAwesome 元件
+import { library } from "@fortawesome/fontawesome-svg-core";
+import { fas } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+import { dom } from "@fortawesome/fontawesome-svg-core";
+dom.watch();
+
+library.add(fas);
+Vue.component("font-awesome-icon", FontAwesomeIcon);
+Vue.component('ValidationObserver', ValidationObserver);
+Vue.component('ValidationProvider', ValidationProvider);

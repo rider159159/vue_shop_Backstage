@@ -10,7 +10,7 @@
           </li>
           <li class="nav-item">
             <router-link to="/admin/orders" class="nav-link">
-              <i class="far fa-list-alt"></i> 訂單列表
+              <i class="fas fa-clipboard-list"></i>訂單列表
             </router-link>
           </li>
           <li class="nav-item">

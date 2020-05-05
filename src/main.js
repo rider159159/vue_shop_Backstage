@@ -9,29 +9,37 @@ import {ValidationObserver, ValidationProvider, extend, localize} from 'vee-vali
 import * as rules from 'vee-validate/dist/rules';
 // 引入中文化的文件
 import TW from 'vee-validate/dist/locale/zh_TW.json';
-
 import App from './App'
 import router from './router' //自動找到資料夾中的 index.js 檔案
 import './bus'//載入 bus.js這個檔案
 import currencyFilter from './filter/currency'
 import dateFilter from './filter/date'
-
+// 下四個為 fontAwesome 元件
+import { library } from "@fortawesome/fontawesome-svg-core";
+import { fas } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+import { dom } from "@fortawesome/fontawesome-svg-core";
 
 Vue.use(VueAxios, axios)
-Vue.component('Loading',Loading)
 Vue.filter('currency',currencyFilter)
 Vue.filter('date',dateFilter)
+Vue.component('Loading',Loading)
 // 註冊 vee-validate 全域元件
 Vue.component('ValidationObserver', ValidationObserver);
 Vue.component('ValidationProvider', ValidationProvider);
-// vee-validate 中文化
-localize('zh_TW', TW);
+//註冊 fontaAwesome
+Vue.component("font-awesome-icon", FontAwesomeIcon);
+
 
 Vue.config.productionTip = false
-
 // 跨域連結必須添加
 axios.defaults.withCredentials = true;
+//fontAwesome 設定
+dom.watch();
+library.add(fas);
 
+// vee-validate 中文化
+localize('zh_TW', TW);
 //VeeValidate， 將所有驗證條件加入 extend
 Object.keys(rules).forEach((rule) => {
   extend(rule, rules[rule]);
@@ -65,15 +73,3 @@ router.beforeEach((to, from, next) => {
     next()
   }
 })
-
-// 下三個為 fontAwesome 元件
-import { library } from "@fortawesome/fontawesome-svg-core";
-import { fas } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
-import { dom } from "@fortawesome/fontawesome-svg-core";
-dom.watch();
-
-library.add(fas);
-Vue.component("font-awesome-icon", FontAwesomeIcon);
-Vue.component('ValidationObserver', ValidationObserver);
-Vue.component('ValidationProvider', ValidationProvider);

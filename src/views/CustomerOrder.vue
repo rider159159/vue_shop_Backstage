@@ -44,8 +44,6 @@
       </div>
     </div>
 
-    <Pagination v-bind:childPaginations="pagination" v-on:emitPagination="getProducts"></Pagination>
-
     <!-- 購物車表單 -->
     <!-- 購物資訊長度 小於/等於 零 時隱藏 此表單 -->
     <div class="row justify-content-center mt-4 d-flex" v-if="cart.carts.length!==0">
@@ -95,6 +93,7 @@
       <div class="my-5 row justify-content-center">
         <ValidationObserver ref="form">
           <form class="col-md-12" @submit.prevent="createOrder">
+            <!-- name 錯誤提示顯示的名稱， v-slot 為提供的資訊 ，rules 有哪些驗證方法  -->
             <ValidationProvider name="name" v-slot="{ failed, errors }" rules="required">
               <div class="form-group">
                 <label for="username">*收件人姓名</label>
@@ -110,7 +109,7 @@
                 <span v-if="failed" class="text-danger">{{ errors[0] }}</span>
               </div>
             </ValidationProvider>
- 
+
             <ValidationProvider name="email" v-slot="{ failed, errors }" rules="required|email">
               <div class="form-group">
                 <label for="username">Email</label>
@@ -127,30 +126,35 @@
               </div>
             </ValidationProvider>
 
-            <div class="form-group">
-              <label for="usertel">收件人電話</label>
-              <input
-                type="tel"
-                class="form-control"
-                id="usertel"
-                v-model="form.user.tel"
-                placeholder="請輸入電話"
-              />
-            </div>
-
-            <div class="form-group">
-              <label for="useraddress">收件人地址</label>
-              <input
-                type="text"
-                class="form-control"
-                name="address"
-                id="useraddress"
-                v-model="form.user.address"
-                placeholder="請輸入地址"
-              />
-              <span class="text-danger">地址欄位不得留空</span>
-            </div>
-
+            <ValidationProvider name="收件人電話" v-slot="{ failed,errors }" rules="required|numeric">
+              <div class="form-group">
+                <label for="usertel">收件人電話</label>
+                <input
+                  type="tel"
+                  class="form-control"
+                  id="usertel"
+                  v-model="form.user.tel"
+                  :class="{ 'is-invalid': failed }"
+                  placeholder="請輸入電話"
+                />
+                <span v-if="failed" class="text-danger">{{ errors[0] }}</span>
+              </div>
+            </ValidationProvider>
+            <ValidationProvider name="收件人地址" v-slot="{ failed }" rules="required">
+              <div class="form-group">
+                <label for="useraddress">收件人地址</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  name="address"
+                  id="useraddress"
+                  v-model="form.user.address"
+                  :class="{ 'is-invalid': failed }"
+                  placeholder="請輸入地址"
+                />
+                <span v-if="failed" class="text-danger">地址欄位不得留空</span>
+              </div>
+            </ValidationProvider>
             <div class="form-group">
               <label for="comment">留言</label>
               <textarea
@@ -406,10 +410,6 @@ export default {
   created() {
     this.getProducts();
     this.getOrder();
-  },
-  components: {
-    Pagination,
   }
 };
-
 </script>

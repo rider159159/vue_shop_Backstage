@@ -34,7 +34,7 @@
         </tr>
       </tbody>
     </table>
-    <Pagination :childPaginations="pagination" @emitPages="getOrders"></Pagination>
+    <Pagination :childPaginations="pagination" @emitPagination="getOrders"></Pagination>
   </div>
 </template>
 <script>

@@ -32,7 +32,7 @@
         </tr>
       </tbody>
     </table>
-    <Pagination v-bind:childPaginations="pagination" v-on:changeCurrentPage="getCoupons"></Pagination>
+    <Pagination v-bind:childPaginations="pagination" v-on:emitPagination="getCoupons"></Pagination>
 
     <!-- 建立優惠卷的 modal -->
     <div

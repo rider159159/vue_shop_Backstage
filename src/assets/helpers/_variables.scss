@@ -13,7 +13,7 @@ $gray-400: #ced4da !default;
 $gray-500: #adb5bd !default;
 $gray-600: #6c757d !default;
 $gray-700: #495057 !default;
-$gray-800: #343a40 !default;
+$gray-800: #303030 !default;
 $gray-900: #212529 !default;
 $black:    #000 !default;
 
@@ -61,13 +61,13 @@ $colors: map-merge(
     "cyan":       $cyan,
     "white":      $white,
     "gray":       $gray-600,
-    "gray-dark":  $gray-800
+    "gray-dark":  $gray-800,
   ),
   $colors
 );
 
-$primary:       #36BF36	 !default;
-$secondary:     $gray-600 !default;
+$primary:       #90ac10	 !default;
+$secondary:     #734d37 !default;
 $success:       $green !default;
 $info:          $cyan !default;
 $warning:       $yellow !default;
@@ -698,7 +698,7 @@ $zindex-tooltip:                    1070 !default;
 // Navs
 
 $nav-link-padding-y:                .5rem !default;
-$nav-link-padding-x:                1rem !default;
+$nav-link-padding-x:                2rem !default;
 $nav-link-disabled-color:           $gray-600 !default;
 
 $nav-tabs-border-color:             $gray-300 !default;

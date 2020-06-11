@@ -1,0 +1,19 @@
+.bg-img {
+    background-position: center center;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+img{
+    max-width: 100%;
+}
+// a 標籤動畫設定，並取消下底線
+a, a:focus, a:hover {
+    transition-duration: 500ms;
+    transition-property:color, background-color;
+    text-decoration: none;
+}
+.header-area {
+    position: relative;
+    z-index: 1000;
+    width: 100%;
+}

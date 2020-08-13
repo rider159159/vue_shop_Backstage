@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
+import Vuex from 'vuex';
+import store from './store'
 import Loading from 'vue-loading-overlay';
 import 'vue-loading-overlay/dist/vue-loading.css';
 import "bootstrap"
@@ -32,6 +34,8 @@ Vue.use(Loading, {
   isFullPage: true,
   opacity:1
 }); 
+Vue.use(Vuex);
+
 Vue.use(VueAxios, axios)
 Vue.filter('currency', currencyFilter)
 Vue.filter('date', dateFilter)
@@ -44,7 +48,7 @@ Vue.component('ValidationProvider', ValidationProvider);
 //註冊 fontaAwesome
 // Vue.component("font-awesome-icon", FontAwesomeIcon);
 
-
+axios.defaults.headers.Accept = 'application/json', 
 Vue.config.productionTip = false
 // 跨域連結必須添加
 axios.defaults.withCredentials = true;
@@ -62,15 +66,16 @@ Object.keys(rules).forEach((rule) => {
 
 new Vue({
   router,
+  store,
   render: h => h(App)
 }).$mount('#app')
 
 // 導航首位
 // to 是前往哪個網頁，from 是從哪個網頁來，next 是 fn
 router.beforeEach((to, from, next) => {
+  console.log(axios)
   //  是需要驗證的網頁 (to.meta.requiresAuth =true)， post api (確認是否登入)
   if (to.meta.requiresAuth) {
-    console.log('是需要驗證的網頁', to)
     const api = `${process.env.VUE_APP_APIPATH}/api/user/check`;
     axios.post(api).then(response => {
       // 驗證成功，進入指定頁面

@@ -343,11 +343,11 @@ export default {
           // 上傳圖片成功
           if (response.data.success) {
             // 無法用賦值方法直接寫入，會沒有 set 、get
-            vm.tempProduct.imageUrl = response.data.imageUrl;
+            // vm.tempProduct.imageUrl = response.data.imageUrl;
             console.log(vm.tempProduct);
             //(加入地點,加入的屬性,加入的值)
-            // vm.$set(vm.tempProduct, "imageUrl", response.data.imageUrl);
-            // vm.status.fileUploading = false;
+            vm.$set(vm.tempProduct, "imageUrl", response.data.imageUrl);
+            vm.status.fileUploading = false;
           } else {
             //$emit('呼叫方法',顯示訊息,'樣式')
             vm.$bus.$emit("message:push", response.data.message, "danger");
@@ -356,8 +356,9 @@ export default {
     },
     // jqTest(){
     //     $( ".jqtest" ).toggleClass( "btn-primary" );
-
     // }
+
+    
   },
   components: {
     Pagination

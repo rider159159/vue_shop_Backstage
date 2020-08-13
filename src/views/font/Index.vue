@@ -3,13 +3,11 @@
     <Loading :active.sync="isLoading">
       <i class="fas fa-spinner fa-pulse fa-3x"></i>
     </Loading>
-    <header class="header-area">
-      <TopArea></TopArea>
-      <Navbar></Navbar>
-    </header>
+
     <CarouselHome></CarouselHome>
     <!-- 測試 loading 功能按鈕，製作完成記得刪除 -->
     <!-- <button @click.prevent="doAjax">fetch Data</button> -->
+
 
     <!-- 區塊一，農場介紹 -->
     <section class="farm-introduce pb-5">
@@ -171,17 +169,12 @@
       <h3>聯絡我們</h3>
     </section>
 
-    <Scrolltop></Scrolltop>
-    <Footer></Footer>
   </div>
 </template>
 <script>
-import TopArea from "@/components/font/TopArea";
-import Navbar from "@/components/font/Navbar";
-import Footer from "@/components/font/Footer";
+
 import CarouselHome from "@/components/font/CarouselHome";
 import CarouselShop from "@/components/font/CarouselShop";
-import Scrolltop from "@/components/font/Scrolltop";
 import LazyYoutubeVideo from "vue-lazy-youtube-video";
 
 // aos 區域組件
@@ -197,34 +190,11 @@ export default {
       isLoading: false
     };
   },
-  methods: {
-    //測試
-    // doAjax() {
-    //   this.isLoading = true;
-    //   // simulate AJAX
-    //   setTimeout(() => {
-    //     this.isLoading = false;
-    //   }, 5000);
-    // },
-  },
-
-  // 透過生命週期顯示 loading 特效
-  mounted() {
-    this.isLoading = false;
-    
-  },
-  created() {
-    this.isLoading = true;
-  },
-
   components: {
-    Navbar,
-    Footer,
     CarouselHome,
     CarouselShop,
-    TopArea,
-    Scrolltop,
     LazyYoutubeVideo
-  }
+  },
+
 };
 </script>

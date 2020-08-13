@@ -3,7 +3,6 @@
     <Loading :active.sync="isLoading"></Loading>
     <table class="table mt-4">
       <thead>
-
         <tr>
           <th>購買時間</th>
           <th>Email</th>
@@ -18,6 +17,7 @@
           <td>
             <span v-text="item.user.email" v-if="item.user"></span>
           </td>
+          <td @click="test(item)">test</td>
           <td>
             <ul class="list-unstyled">
               <li v-for="(product, i) in item.products" :key="i">
@@ -47,21 +47,33 @@ export default {
       orders: {},
       pagination: {},
       isNew: false,
-      isLoading: false
+      isLoading: false,
+      tempOrder: {},
     };
   },
   methods: {
-  // 獲得訂單列表
-   getOrders(page = 1) {
+    test(item) {
+      this.tempOrder = Object.assign({}, item);
+      console.log(this.tempOrder.id);
+      this.gg();
+    },
+    gg() {
+      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/admin/order/${this.tempOrder.id}`;
+      this.$http.put(api, { data: this.tempOrder }).then((response) => {
+        console.log(response);
+      });
+    },
+    // 獲得訂單列表
+    getOrders(page = 1) {
       const vm = this;
-     const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/admin/orders?page=${page}`;
-     this.$http.get(api).then(response => {
-             console.log(response)
+      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/admin/orders?page=${page}`;
+      this.$http.get(api).then((response) => {
+        console.log(response);
         // 將獲得的訂單傳遞給 order物件
         vm.orders = response.data.orders;
         vm.pagination = response.data.pagination;
       });
-    }
+    },
   },
   computed: {
     // 整理 order 物件排序，將整理後的排序放置 newOrder，sortOrder 取用 newOrder 的值
@@ -69,21 +81,22 @@ export default {
       const vm = this;
       let newOrder = [];
       if (vm.orders.length) {
-       newOrder = vm.orders.sort((a, b) => {
-            // .is_paid = 有無付款，使用有無付款排序 十
+        newOrder = vm.orders.sort((a, b) => {
+          // .is_paid = 有無付款，使用有無付款排序 十
           const aIsPaid = a.is_paid ? 1 : 0;
           const bIsPaid = b.is_paid ? 1 : 0;
           return bIsPaid - aIsPaid;
         });
       }
       return newOrder;
-    }
+    },
   },
   created() {
     this.getOrders();
+    this.test();
   },
   components: {
     Pagination,
-  }
+  },
 };
 </script>

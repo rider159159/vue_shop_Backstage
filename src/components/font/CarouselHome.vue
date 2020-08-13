@@ -1,18 +1,18 @@
  <style scoped>
 .swiper-slide {
-    position: relative;
+  position: relative;
 }
 .swiper-slide:after {
-        background-color: rgba(0, 0, 0, 0.5);
-        position: absolute;
-        z-index: 0;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        content: "";
-    }
-    </style>
+  background-color: rgba(0, 0, 0, 0.5);
+  position: absolute;
+  z-index: 0;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  content: "";
+}
+</style>
 <template>
   <swiper ref="mySwiper" :options="swiperOptions">
     <swiper-slide class="swiper-item1">
@@ -33,6 +33,8 @@
         <h3 class="text-white">降低農漁牧業受疫情衝擊，更強健您的健康！</h3>
       </div>
     </swiper-slide>
+    <div class="swiper-button-next swiper-button-white" slot="button-next" ></div>
+    <div class="swiper-button-prev swiper-button-white"  slot="button-prev"></div>
     <div class="swiper-pagination" slot="pagination"></div>
   </swiper>
 </template>
@@ -53,19 +55,22 @@ export default {
       product: {
         category: "carousel" //自訂名稱
       },
-      
       swiperOptions: {
-      pagination: {
-        el: ".swiper-pagination",
-          clickable: true,
-             },
-      // 自動撥放
+        keyboard: true,
+        speed: 1500, // 切換圖片滑動的速度
+        loop: true, // 是否循環撥放
+        navigation: {
+          nextEl: ".swiper-button-next",
+          prevEl: ".swiper-button-prev"
+        },
+        pagination: {
+          el: ".swiper-pagination"
+        },
+        // 自動撥放
         autoplay: {
           delay: 30000,
           disableOnInteraction: false
         },
-        speed: 1500, // 切換圖片滑動的速度
-        loop: true, // 是否循環撥放
         on: {
           slideChangeTransitionStart: function() {
             $(".text").hide(0);

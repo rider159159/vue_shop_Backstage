@@ -1,14 +1,12 @@
 <template>
   <div>
-      <Navbar></Navbar>
+<p>最新消息</p>
   </div>
 </template>
 <script>
-import Navbar from "@/components/font/Navbar";
+
 
 export default {
-     components: {
-    Navbar,
-  }
-}
+ 
+};
 </script>

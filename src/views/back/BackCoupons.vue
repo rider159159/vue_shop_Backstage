@@ -153,15 +153,15 @@ export default {
       isNew: false,
       pagination: {},
       // now_date 就是當前時間
-      now_date: new Date() //Tue Apr 21 2020 17:48:24 GMT+0800 (台北標準時間)
+      now_date: new Date(), //Tue Apr 21 2020 17:48:24 GMT+0800 (台北標準時間)
     };
   },
   methods: {
     // 獲得優惠卷資料，init
     getCoupons(page = 1) {
       const vm = this;
-      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/admin/coupons?page=${page}`; 
-      this.$http.get(api).then(response => {
+      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/admin/coupons?page=${page}`;
+      this.$http.get(api).then((response) => {
         console.log(response.data);
         vm.coupons = response.data.coupons;
         vm.pagination = response.data.pagination;
@@ -183,33 +183,54 @@ export default {
         const dateAndTime = new Date(vm.tempCoupon.now_date * 1000)
           .toISOString()
           .split("T");
-        console.log(dateAndTime);
         vm.now_date = dateAndTime[0];
+        console.log(vm.now_date);
       }
       $("#couponModal").modal("show");
     },
     // 確認建立優惠卷
+
     updateCoupon() {
-      let api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/admin/coupon`;
       const vm = this;
-      let httpMethod = "post";
-      //true =新增 ，false =修改
-      if (!vm.isNew) {
-        api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/admin/coupon/${vm.tempCoupon.id}`;
-        httpMethod = "put";
+      if (vm.isNew) {
+        const url = `${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/admin/coupon`;
+        this.$http.post(url, { data: vm.tempCoupon }).then((response) => {
+          console.log(response, vm.tempCoupon);
+          $("#couponModal").modal("hide");
+          this.getCoupons();
+        });
+      } else {
+        const url = `${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/admin/coupon/${vm.tempCoupon.id}`;
+        vm.due_date = new Date(vm.tempCoupon.due_date * 1000);
+
+        this.$http.put(url, { data: vm.tempCoupon }).then((response) => {
+          console.log(response);
+          $("#couponModal").modal("hide");
+          this.getCoupons();
+        });
       }
-      this.$http[httpMethod](api, { data: vm.tempCoupon }).then(response => {
-        console.log(response.data);
-        if (response.data.success) {
-          $("#couponModal").modal("hide");
-          vm.getCoupons();
-        } else {
-          $("#couponModal").modal("hide");
-          vm.getCoupons();
-          console.log("新增失敗");
-        }
-      });
     },
+    // updateCoupon() {
+    //   let api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/admin/coupon`;
+    //   const vm = this;
+    //   let httpMethod = "post";
+    //   //true =新增 ，false =修改
+    //   if (!vm.isNew) {
+    //     api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/admin/coupon/${vm.tempCoupon.id}`;
+    //     httpMethod = "put";
+    //   }
+    //   this.$http[httpMethod](api, { data: vm.tempCoupon }).then(response => {
+    //     console.log(response.data);
+    //     if (response.data.success) {
+    //       $("#couponModal").modal("hide");
+    //       vm.getCoupons();
+    //     } else {
+    //       $("#couponModal").modal("hide");
+    //       vm.getCoupons();
+    //       console.log("新增失敗");
+    //     }
+    //   });
+    // },
     // 點擊刪除優惠卷
     openDelCoupon(item) {
       this.tempCoupon = item;
@@ -219,7 +240,7 @@ export default {
     deleteCoupon() {
       const vm = this;
       const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/admin/coupon/${vm.tempCoupon.id}`;
-      this.$http.delete(api).then(response => {
+      this.$http.delete(api).then((response) => {
         console.log(response.data);
         if (response.data.success) {
           $("#delCouponModal").modal("hide");
@@ -230,7 +251,7 @@ export default {
           console.log("刪除失敗");
         }
       });
-    }
+    },
   },
   watch: {
     // Wed Apr 22 2020 11:41:13 GMT+0800 (台北標準時間) 轉換成時間戳
@@ -238,13 +259,13 @@ export default {
       const vm = this;
       const timestamp = Math.floor(new Date(vm.now_date) / 1000);
       vm.tempCoupon.now_date = timestamp;
-    }
+    },
   },
   created() {
     this.getCoupons(); // init
   },
   components: {
-    Pagination
-  }
+    Pagination,
+  },
 };
 </script>

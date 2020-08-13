@@ -47,7 +47,7 @@
 
     <!-- 購物車表單 -->
     <!-- 購物資訊長度 小於/等於 零 時隱藏 此表單 -->
-    <div class="row justify-content-center mt-4 d-flex" v-if="cart.carts.length!==0">
+    <div class="row justify-content-center mt-4 d-flex" v-if="cart.carts && cart.carts.length > 0">
       <table class="table mt-4">
         <thead>
           <tr>
@@ -265,8 +265,7 @@
 <script>
 import Pagination from "@/components/back/Pagination";
 import $ from "jquery";
-Document;
-document;
+
 export default {
   data() {
     return {
@@ -307,13 +306,15 @@ export default {
       this.$http.get(api).then(response => {
         console.log(response.data);
         vm.products = response.data.products;
-        vm.isLoading = false;
+        // vm.isLoading = false;
       });
     },
+
+
     // 點擊查看更多時使用
     getProduct(id) {
       const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/product/${id}`;
-      const vm = this;
+     const vm = this;
       // 點擊後 status.loadingItem == item.id ，此時會顯示圖片
       vm.status.loadingItem = id;
       this.$http.get(api).then(response => {
@@ -356,7 +357,6 @@ export default {
     openDelModal(item) {
       this.tempCart = Object.assign({}, item);
       this.$set(this, "tempCart", item);
-      console.log(this.tempCart.product.title);
       this.test = this.tempCart.product.title;
       $("#delCartModal").modal("show");
     },
@@ -400,12 +400,13 @@ export default {
             console.log("訂單建立", response);
             // 回傳訊息正確，跳轉至購物完成頁面
             if (response.data.success) {
-              vm.$router.push(`/customer_checkorder/${response.data.orderId}`);
+              vm.$router.push(`/back_customer_checkorder/${response.data.orderId}`);
             }
             vm.isLoading = false;
           });
         } else {
           console.log("欄位不完整");
+                      vm.isLoading = false;
         }
       });
     }

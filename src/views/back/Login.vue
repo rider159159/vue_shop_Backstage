@@ -42,28 +42,30 @@ export default {
     return {
       user: {
         username: "",
-        password: ""
-      }
+        password: "",
+      },
     };
   },
   methods: {
     // 登入帳號的用法
-    signin: function() {
+    signin: function () {
       const api = `${process.env.VUE_APP_APIPATH}/admin/signin`;
       const vm = this;
-     console.log(vm.user)
-      this.$http.post(api, vm.user).then(response => {
+      console.log(vm.user);
+      this.$http.post(api, vm.user).then((response) => {
         if (response.data.success) {
-          vm.$router.push("/admin/products");
+          vm.$router.push("/admin/back_products");
+          vm.$router.push("/admin");
         } else {
+          console.log(response);
           this.$bus.$emit("error:push", "帳號或密碼錯誤。請重新輸入", "danger");
         }
       });
-    }
+    },
   },
   components: {
-    Alter
-  }
+    Alter,
+  },
 };
 </script>
 

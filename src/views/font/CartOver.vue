@@ -10,7 +10,7 @@
             <th>單價</th>
           </thead>
           <tbody>
-            <tr v-for="item in order.products" :key="item.id" >
+            <tr v-for="item in order.products" :key="item.id">
               <td class="align-middle">{{ item.product.title }}</td>
               <td class="align-middle">{{ item.qty }}/{{ item.product.unit }}</td>
               <td class="align-middle text-right">{{ item.final_total }}</td>
@@ -58,7 +58,6 @@
     </div>
   </div>
 </template>
-
 <script>
 export default {
   data() {
@@ -75,7 +74,7 @@ export default {
       const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/order/${vm.orderId}`;
       vm.isLoading = true;
       this.$http.get(api).then(response => {
-        console.log(response);
+        console.log(response.data.order);
         vm.order = response.data.order;
         vm.isLoading = false;
       });
@@ -86,18 +85,17 @@ export default {
       vm.isLoading = true;
       this.$http.post(api).then(response => {
         console.log(response);
-        if(response.data.success){
-          vm.getOrder()
+        if (response.data.success) {
+          vm.getOrder();
         }
         vm.isLoading = false;
-      })
+      });
     }
   },
   created() {
-    //獲得當前頁面的 orderId，ordeId 必須先獲取才能執行 getOrder
     this.orderId = this.$route.params.orderId;
     this.getOrder();
     console.log(this.orderId);
   }
-}
+};
 </script>

@@ -9,8 +9,8 @@
                 <span>香草霏霏</span>，如有購物、加盟等問題歡迎聯繫
               </p>
               <div class="top-meta text-right d-lg-none ">
-                <i class="far fa-envelope" ></i>
-                <i class="fas fa-phone" ></i>
+                <i class="far fa-envelope" data-toggle="tooltip" data-placement="bottom" title="rider159159@gmail.com" ></i>
+                <i class="fas fa-phone"  data-toggle="tooltip" data-placement="bottom" title="02-345678910"></i>
               </div>
               <div class="top-meta text-right d-none d-lg-block ">
                 <i class="far fa-envelope" ></i><span>rider159159@gmail.com</span>
@@ -25,7 +25,7 @@
 
 <script>
 export default {
-  created() {
+  mounted() {
     window.addEventListener("scroll", this.handleScroll, true);
   },
   methods: {

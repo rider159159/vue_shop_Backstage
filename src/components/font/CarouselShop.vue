@@ -1,4 +1,4 @@
- <style scoped>
+ <style scoped  lang="scss">
 .swiper-slide {
   position: relative;
 }
@@ -9,8 +9,15 @@
   width: 100%;
   height: 50px;
   justify-content: center;
+  button {
+    border: 0;
+  }
 }
-.product-meta-data a {
+.shop-icon{
+  color: #90ac10;
+}
+.product-meta-data a,
+.product-meta-data button {
   width: 40px;
   height: 40px;
   border-radius: 50%;
@@ -23,43 +30,60 @@
   opacity: 0;
   transition: all 0.5s;
 }
-.product-meta-data a:hover {
+
+.product-meta-data a:hover,
+.product-meta-data button:hover {
   background-color: #90ac10;
+    color: #fff;
+  .shop-icon{
   color: #fff;
+  }
 }
+
 .card {
   border: 0;
   margin: 0 10px;
 }
-.card:hover a {
+.card:hover a,
+.card:hover button {
   opacity: 1;
 }
 </style>
 <template>
-  <div v-swiper:mySwiper="swiperOption">
-    <div class="swiper-wrapper">
-      <div class="swiper-slide" v-for="(item,index) in products" :key="index">
-        <div class="card">
-          <img :src="item.imageUrl" class="card-img-top" alt />
-          <div class="product-meta-data">
-            <a href="#" data-toggle="tooltip" data-placement="top" title="詳細資訊">
-              <i class="fas fa-search"></i>
-            </a>
-            <button @click.prevent="addToCart(item.id)">
-              <i class="fas fa-shopping-cart"></i>
-            </button>
-          </div>
-          <div class="card-body">
-            <h5 class="card-title">{{item.title}}</h5>
-            <p class="card-text">$ {{item.price}}</p>
+  <div>
+    <div v-swiper:mySwiper="swiperOption">
+      <div class="swiper-wrapper">
+        <div class="swiper-slide" v-for="(item,index) in products" :key="index">
+          <div class="card">
+            <img :src="item.imageUrl" class="card-img-top" alt />
+            <div class="product-meta-data">
+              <a href="#" data-toggle="tooltip" data-placement="top" title="詳細資訊">
+                <i class="fas fa-search"></i>
+              </a>
+              <button
+                ref="shopBtn"
+                :data-num="index"
+                type="button"
+                data-toggle="tooltip"
+                data-placement="top"
+                title="加入購物車"
+              >
+                <i class="fas fa-shopping-cart shop-icon" :data-num="index"></i>
+              </button>
+            </div>
+            <div class="card-body">
+              <h5 class="card-title">{{item.title}}</h5>
+              <p class="card-text">$ {{item.price}}</p>
+            </div>
           </div>
         </div>
       </div>
+      <div class="swiper-pagination"></div>
+      <div class="swiper-button-next"></div>
+      <div class="swiper-button-prev"></div>
+      <div class="swiper-scrollbar"></div>
     </div>
-    <div class="swiper-pagination"></div>
-    <div class="swiper-button-next"></div>
-    <div class="swiper-button-prev"></div>
-    <div class="swiper-scrollbar"></div>
+    <!-- <div v-for="(item,index) in products" :key="index">{{item.description}}</div> -->
   </div>
 </template>
 
@@ -67,87 +91,77 @@
 import $ from "jquery";
 import { Swiper, SwiperSlide, directive } from "vue-awesome-swiper";
 import "swiper/css/swiper.css";
-// import AOS from "aos";
-// import "aos/dist/aos.css"; // You can also use <link> for styles
-// AOS.init({
-//   duration: 2000 //動畫時間
-// });
+import { mapGetters, mapActions } from "vuex";
+
 export default {
   name: "carrousel",
   data() {
+    const vm = this;
     return {
-      products: {},
-      product: {
-        category: "carousel" //自訂名稱
-      },
       // swiper 設定
       swiperOption: {
         autoplay: {
           // 自動撥放
-          delay: 3000,
-          disableOnInteraction: false
+          delay: 300000,
+          disableOnInteraction: false,
+        },
+        on: {
+          click: function (e, qty) {
+            if (!e.target.dataset.num) return;
+            // 指向 DOM 的 data 數字
+            let dataIndex = e.target.dataset.num;
+            // 指向 Vue products[數字]
+            let products = vm.products[dataIndex];
+            let id = products.id;
+            vm.$store.dispatch("addtoCart", { id, qty });
+          },
         },
         speed: 1000, // 切換速度
-        loop: false, // 是否循環撥放
-        slidesPerView: 3, // 預設 slider 數量
-        spaceBetween: 60, // slider 間隔
+        loop: true, // 是否循環撥放
+        slidesPerView: 2, // 預設 slider 數量
+        spaceBetween: 30, // slider 間隔
         breakpoints: {
           // 斷點
           576: {
-            spaceBetween: 30
-          }
+            spaceBetween: 60,
+            slidesPerView: 3, // 預設 slider 數量
+          },
         },
         pagination: {
-          // 頁籤
           el: ".swiper-pagination",
           clickable: true,
-          dynamicBullets: true
         },
         navigation: {
           nextEl: ".swiper-button-next", // 下一個按鈕
-          prevEl: ".swiper-button-prev" // 上一個按鈕
-        }
-      }
+          prevEl: ".swiper-button-prev", // 上一個按鈕
+        },
+      },
     };
   },
   methods: {
-    getProducts(page = 1) {
-      const vm = this;
-      vm.isLoading = true;
-      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/products?page${page}`;
-      this.$http.get(api).then(response => {
-        console.log(response.data);
-        vm.products = response.data.products;
-        vm.isLoading = false;
+    ...mapActions(["getProducts","addtoCart"]),
+    // 獲得商品在監聽，避免 tooltip 無法顯示
+    tooltipList() {
+      $(function () {
+        $('[data-toggle="tooltip"]').tooltip();
       });
     },
-    addToCart(id, qty = 1) {
-      console.log(123);
-      // const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart`;
-      // const vm = this;
-      // const cart = {
-      //   product_id: id,
-      //   qty
-      // };
-      // this.$http.post(api, { data: cart }).then(response => {
-      //   console.log(response);
-      // });
-    }
+  },
+  computed: {
+    ...mapGetters(["isLoading", "products"]),
+  },
+  mounted() {
+    // 會執行 vuex 匯入的函式
+    this.tooltipList();
+    this.getProducts();
   },
   components: {
     Swiper,
-    SwiperSlide
+    SwiperSlide,
   },
   directives: {
-    swiper: directive
+    swiper: directive,
   },
-  created() {
-    this.getProducts();
-  },
-  mounted() {
-    $(function() {
-      $('[data-toggle="tooltip"]').tooltip();
-    });
-  }
 };
 </script>
+

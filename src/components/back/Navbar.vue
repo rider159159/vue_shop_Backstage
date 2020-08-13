@@ -18,17 +18,28 @@
 </template>
 <script>
 export default {
- methods: {
+  data() {
+    return {
+      cartNumber: 0
+    };
+  },
+  methods: {
     signout() {
       const vm = this;
       const url = `${process.env.VUE_APP_APIPATH}/logout`;
-      this.$http.post(url).then((response) => {
+      this.$http.post(url).then(response => {
         console.log(response.data);
         if (response.data.success) {
-          vm.$router.push('/login');
+          vm.$router.push("/login");
         }
       });
     },
   },
-}
+  created() {
+    this.$bus.$on("cartNumber", params => {
+      console.log('test')
+      this.cartNumber = params;
+    });
+  }
+};
 </script>

@@ -11,50 +11,45 @@ const routes = [
   //   前台頁面
   {
     path: '/',
-    name: 'Font',
-    component: () => import('@/views/font/Font.vue'),
+    name: 'Front',
+    component: () => import('@/views/front/Front.vue'),
     children: [
       // 修改成前台頁面
       {
-        path: 'index',
+        path: '',
         name: 'Index',
-        component: () => import('../views/font/Index'),
+        component: () => import('../views/front/Index'),
       }, {
         path: 'products',
         name: 'Proudcts',
-        component: () => import('../views/font/Products'),
+        component: () => import('../views/front/Products'),
       }, {
         path: 'products_detail/:id',
         name: 'ProductsDetail',
-        component: () => import('../views/font/ProductsDetail'),
+        component: () => import('../views/front/ProductsDetail'),
       }, {
         path: 'about',
         name: 'About',
-        component: () => import('../views/font/About'),
+        component: () => import('../views/front/About'),
       }, {
         path: 'news',
         name: 'News',
-        component: () => import('../views/font/News'),
+        component: () => import('../views/front/News'),
       },
       {
         path: 'cart',
         name: 'Cart',
-        component: () => import('../views/font/Cart'),
+        component: () => import('../views/front/Cart'),
       },
       {
         path: 'cart_addres',
         name: 'CartAddres',
-        component: () => import('../views/font/CartAddres'),
+        component: () => import('../views/front/CartAddres'),
       },
       {
         path: 'cart_over/:orderId',
         name: 'CartOver',
-        component: () => import('../views/font/CartOver'),
-      },
-      {
-        path: 'cart_pay',
-        name: 'CartPay',
-        component: () => import('../views/font/CartPay'),
+        component: () => import('../views/front/CartOver'),
       },
 
     ]

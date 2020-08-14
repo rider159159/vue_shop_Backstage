@@ -32,8 +32,8 @@ Vue.use(Loading, {
   height: 50,
   backgroundColor: '#91b122',
   isFullPage: true,
-  opacity:1
-}); 
+  opacity: 1
+});
 Vue.use(Vuex);
 
 Vue.use(VueAxios, axios)
@@ -48,8 +48,8 @@ Vue.component('ValidationProvider', ValidationProvider);
 //註冊 fontaAwesome
 // Vue.component("font-awesome-icon", FontAwesomeIcon);
 
-axios.defaults.headers.Accept = 'application/json', 
-Vue.config.productionTip = false
+axios.defaults.headers.Accept = 'application/json',
+  Vue.config.productionTip = false
 // 跨域連結必須添加
 axios.defaults.withCredentials = true;
 //fontAwesome 設定

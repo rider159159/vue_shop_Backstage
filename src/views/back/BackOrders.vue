@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Loading :active.sync="isLoading"></Loading>
+    <Loading v-model:active="isLoading"></Loading>
     <table class="table mt-4">
       <thead>
         <tr>
@@ -38,8 +38,8 @@
   </div>
 </template>
 <script>
-import $ from "jquery";
-import Pagination from "@/components/back/Pagination";
+import $ from 'jquery';
+import Pagination from '@/components/back/Pagination';
 
 export default {
   data() {
@@ -53,7 +53,7 @@ export default {
   },
   methods: {
     test(item) {
-      this.tempOrder = Object.assign({}, item);
+      this.tempOrder = { ...item };
       console.log(this.tempOrder.id);
       this.gg();
     },

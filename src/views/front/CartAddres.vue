@@ -115,10 +115,10 @@
   </div>
 </template>
 <script>
-import TopArea from "@/components/front/TopArea";
-import Navbar from "@/components/front/Navbar";
-import Footer from "@/components/front/Footer";
-import Scrolltop from "@/components/front/Scrolltop";
+import TopArea from '@/components/front/TopArea.vue';
+import Navbar from '@/components/front/Navbar.vue';
+import Footer from '@/components/front/Footer.vue';
+import Scrolltop from '@/components/front/Scrolltop.vue';
 
 export default {
   data() {
@@ -129,28 +129,28 @@ export default {
       product: {},
       cart: {
         carts: {
-          product: {}
-        }
+          product: {},
+        },
       },
 
       tempCart: {
         product: {
-          title: ""
-        }
+          title: '',
+        },
       },
-      coupon_code: "",
+      coupon_code: '',
       status: {
-        loadingItem: "" //存放的值就是產品 id
+        loadingItem: '', // 存放的值就是產品 id
       },
       form: {
         user: {
-          name: "",
-          email: "",
-          tel: "",
-          address: ""
+          name: '',
+          email: '',
+          tel: '',
+          address: '',
         },
-        message: ""
-      }
+        message: '',
+      },
     };
   },
   methods: {
@@ -159,7 +159,7 @@ export default {
       const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart`;
       const vm = this;
       vm.isLoading = true;
-      this.$http.get(api).then(response => {
+      this.$http.get(api).then((response) => {
         vm.isLoading = false;
         // this.$set(vm, "cart", response.data.data);
         vm.cart = response.data.data;
@@ -173,10 +173,10 @@ export default {
       vm.isLoading = true;
       const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/order`;
       // VeeValidate 表單驗證功能，如果 input 都成功，success 回傳 true ，反之不通過回傳 false
-      this.$refs.form.validate().then(success => {
+      this.$refs.form.validate().then((success) => {
         if (success) {
           //  表單驗證通過才執行 post api 的動作
-          this.$http.post(api, { data: order }).then(response => {
+          this.$http.post(api, { data: order }).then((response) => {
             console.log("訂單建立", response);
             // 回傳訊息正確，跳轉至購物完成頁面
             if (response.data.success) {
@@ -189,7 +189,7 @@ export default {
           vm.isLoading = false;
         }
       });
-    }
+    },
   },
   created() {
     this.getOrder();
@@ -198,7 +198,7 @@ export default {
     Navbar,
     TopArea,
     Footer,
-    Scrolltop
-  }
+    Scrolltop,
+  },
 };
 </script>

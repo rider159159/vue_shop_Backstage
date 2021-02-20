@@ -1,6 +1,6 @@
 <template>
   <div>
-    <loading :active.sync="isLoading"></loading>
+    <loading v-model:active="isLoading"></loading>
     <div class="text-right mt-4">
       <button class="btn-primary btn" @click="openModel(true)">建新的產品</button>
     </div>
@@ -223,27 +223,27 @@
       </div>
     </div>
   </div>
-</template> 
+</template>
 <script>
 // jQ 不建議用全局註冊
-import $ from "jquery";
-import Pagination from "@/components/back/Pagination";
+import $ from 'jquery';
+import Pagination from '@/components/back/Pagination';
 
 export default {
   data() {
     return {
       // 用來儲存遠端資料
       products: [],
-      //用來儲存本地 modal 中 input 資料
+      // 用來儲存本地 modal 中 input 資料
       tempProduct: {},
       pagination: {},
       isNew: false,
-      //load 專用變數， true 時會是
+      // load 專用變數， true 時會是
       isLoading: false,
       // 分成局部 loading 圖示、全域 load 圖示
       status: {
-        fileUploading: false
-      }
+        fileUploading: false,
+      },
     };
   },
   methods: {
@@ -253,104 +253,103 @@ export default {
       const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/admin/products?page=${page}`;
       const vm = this;
       vm.isLoading = true;
-      this.$http.get(api).then(response => {
+      this.$http.get(api).then((response) => {
         console.log(response.data);
         vm.products = response.data.products;
         vm.isLoading = false;
         vm.pagination = response.data.pagination;
       });
-      
     },
     // 新增產品、修改產品的確任鍵
     updataProduct() {
       let api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/admin/product`;
       const vm = this;
-      let httpMeth = "post";
+      let httpMeth = 'post';
       //  如果不是新增(編輯)
       if (!vm.isNew) {
         api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/admin/product/${vm.tempProduct.id}`;
-        httpMeth = "put";
+        httpMeth = 'put';
       }
-      //新增、修改需要不同的 axios 動作，所以使用 [httpMeth] 變數觸發不同事件
+      // 新增、修改需要不同的 axios 動作，所以使用 [httpMeth] 變數觸發不同事件
       // api 規定要使用 { data:資料本身} 的方式才能讀取
-      this.$http[httpMeth](api, { data: vm.tempProduct }).then(response => {
+      this.$http[httpMeth](api, { data: vm.tempProduct }).then((response) => {
         if (response.data.success) {
-          $("#productsModal").modal("hide");
+          $('#productsModal').modal('hide');
           vm.getProducts();
         } else {
-          $("#productsModal").modal("hide");
+          $('#productsModal').modal('hide');
           vm.getProducts();
-          console.log("新增失敗");
+          console.log('新增失敗');
         }
       });
     },
     // 編輯、新增產品觸發。兩者介面類似，所有使用相同方法，透過參數確認是編輯 or 新增
     openModel(isNew, item) {
       if (isNew) {
-        //如果是新增商品，因為是新頁面 input 自然是空的，所以使用空陣列
+        // 如果是新增商品，因為是新頁面 input 自然是空的，所以使用空陣列
         this.tempProduct = {};
         // 也修改 原生 isNew 狀態， updataProduct 會使用到
         this.isNew = true;
       } else {
         // 如果是編輯 tempProducts = item(商品資料)
-        this.tempProduct = Object.assign({}, item); //編輯商品需要跑出商品原來的設定，所以賦予 的屬性
+        this.tempProduct = { ...item }; // 編輯商品需要跑出商品原來的設定，所以賦予 的屬性
         this.isNew = false;
-        console.log("編輯");
+        console.log('編輯');
       }
       // BS 設定的 jQ 方法，會開啟 modal
-      $("#productsModal").modal("show");
+      $('#productsModal').modal('show');
     },
     // products 點擊刪除 button 執行的 function
     openDelModal(item) {
-      this.tempProduct = Object.assign({}, item);
-      $("#delProductModal").modal("show");
+      this.tempProduct = { ...item };
+      $('#delProductModal').modal('show');
     },
     // 確認刪除 button 執行
     deleteProducts() {
       const vm = this;
       const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/admin/product/${vm.tempProduct.id}`;
-      this.$http.delete(api).then(response => {
+      this.$http.delete(api).then((response) => {
         console.log(response.data);
         if (response.data.success) {
           vm.getProducts();
-          $("#delProductModal").modal("hide");
+          $('#delProductModal').modal('hide');
         } else {
           vm.getProducts();
-          console.log("刪除失敗");
-          $("#delProductModal").modal("hide");
+          console.log('刪除失敗');
+          $('#delProductModal').modal('hide');
         }
       });
     },
 
     // 上傳圖片的方法
     upload() {
-      console.log(this); //是 upload 元件，$refs.files.files 會是陣列，檔案中第 1 個會是剛剛上傳的圖片網址
+      console.log(this); // 是 upload 元件，$refs.files.files 會是陣列，檔案中第 1 個會是剛剛上傳的圖片網址
       const uploadedFile = this.$refs.files.files[0];
       const vm = this;
-      const formData = new FormData(); //要上傳檔案時，跟一般使用 ajax 不同，會使用 new FormData
-      formData.append("file-to-upload", uploadedFile); //append() 是 FormData() 特有的方法，功能是將指定的 form data 欄位新增
+      const formData = new FormData(); // 要上傳檔案時，跟一般使用 ajax 不同，會使用 new FormData
+      formData.append('file-to-upload', uploadedFile); // append() 是 FormData() 特有的方法，功能是將指定的 form data 欄位新增
       const url = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/admin/upload`;
       vm.status.fileUploading = true;
-      //axios 的 Post 參數分別是 (api 網址 , 傳送資料, 傳送設定)
+      // axios 的 Post 參數分別是 (api 網址 , 傳送資料, 傳送設定)
       this.$http
         .post(url, formData, {
           headers: {
-            //要傳送的資料類型，這邊的是 form data類型
-            "Content-Type": "multipart/form-data"
-          }
+            // 要傳送的資料類型，這邊的是 form data類型
+            'Content-Type': 'multipart/form-data',
+          },
         })
-        .then(response => {
+        .then((response) => {
           // 上傳圖片成功
           if (response.data.success) {
             // 無法用賦值方法直接寫入，會沒有 set 、get
             // vm.tempProduct.imageUrl = response.data.imageUrl;
             console.log(vm.tempProduct);
-            //(加入地點,加入的屬性,加入的值)
-            vm.$set(vm.tempProduct, "imageUrl", response.data.imageUrl);
+            // (加入地點,加入的屬性,加入的值)
+            vm.$set(vm.tempProduct, 'imageUrl', response.data.imageUrl);
             vm.status.fileUploading = false;
           } else {
-            //$emit('呼叫方法',顯示訊息,'樣式')
-            vm.$bus.$emit("message:push", response.data.message, "danger");
+            // $emit('呼叫方法',顯示訊息,'樣式')
+            vm.$bus.$emit('message:push', response.data.message, 'danger');
           }
         });
     },
@@ -358,15 +357,14 @@ export default {
     //     $( ".jqtest" ).toggleClass( "btn-primary" );
     // }
 
-    
   },
   components: {
-    Pagination
+    Pagination,
   },
   // 生命週期鉤子，開啟網頁時觸發 getProducts
   created() {
-          let api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/admin/product`;
+    const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/admin/product`;
     this.getProducts();
-  }
+  },
 };
 </script>

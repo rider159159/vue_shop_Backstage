@@ -39,17 +39,17 @@
 <script>
 export default {
 // props 傳送 Products 的 Paginations 物件，來到這邊 Paginations => childPaginations
-props: {
+  props: {
     childPaginations: {
-    }
+    },
   },
   methods: {
     //  getChildProducts => getProducts
     //  emit 用來傳遞 getChildProducts 的參數至 products 的 getProducts
     getChildProducts(page) {
-      this.$emit("emitPagination", page);
-    }
-  }
+      this.$emit('emitPagination', page);
+    },
+  },
 };
 
 </script>

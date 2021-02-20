@@ -1,12 +1,10 @@
 <template>
   <div>
-    <Loading :active.sync="isLoading">
+    <Loading v-model:active="isLoading">
       <i class="fas fa-spinner fa-pulse fa-3x"></i>
     </Loading>
 
     <CarouselHome></CarouselHome>
-    <!-- 測試 loading 功能按鈕，製作完成記得刪除 -->
-    <!-- <button @click.prevent="doAjax">fetch Data</button> -->
 
     <!-- 區塊一，農場介紹 -->
     <section class="farm-introduce pb-5">
@@ -185,15 +183,16 @@
   </div>
 </template>
 <script>
-import CarouselHome from "@/components/front/CarouselHome";
-import CarouselShop from "@/components/front/CarouselShop";
-import LazyYoutubeVideo from "vue-lazy-youtube-video";
+import CarouselHome from '@/components/front/CarouselHome.vue';
+import CarouselShop from '@/components/front/CarouselShop.vue';
+import LazyYoutubeVideo from 'vue-lazy-youtube-video';
 
 // aos 區域組件
-import AOS from "aos";
-import "aos/dist/aos.css"; // You can also use <link> for styles
+import AOS from 'aos';
+import 'aos/dist/aos.css';
+// You can also use <link> for styles
 AOS.init({
-  duration: 2000, //動畫時間
+  duration: 2000, // 動畫時間
 });
 // import "jquery";
 export default {

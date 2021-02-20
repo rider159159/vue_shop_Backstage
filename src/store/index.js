@@ -22,7 +22,7 @@ export default new Vuex.Store({
       const url = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart`;
       context.commit('LOADING', true);
       axios.get(url).then((response) => {
-        console.log(response)
+        console.log(response);
         if (response.data.data) {
           context.commit('CARTS', response.data.data);
           context.commit('LOADING', false);
@@ -58,7 +58,7 @@ export default new Vuex.Store({
       axios.get(url).then((response) => {
         context.commit('PRODUCTS', response.data.products);
         context.commit('CATEGORIES', response.data.products);
-        context.commit('LOADING', false,);
+        context.commit('LOADING', false);
       });
     },
   },
@@ -80,14 +80,14 @@ export default new Vuex.Store({
       //   categories.add(item.category);
       // });
       // state.categories = Array.from(categories);
-      state.categories = payload
+      state.categories = payload;
     },
   },
   getters: {
-    categories: state => state.categories,
-    isLoading: state => state.isLoading,
-    cart: state => state.cart,
-    products: state => state.products,
+    categories: (state) => state.categories,
+    isLoading: (state) => state.isLoading,
+    cart: (state) => state.cart,
+    products: (state) => state.products,
 
   },
 });

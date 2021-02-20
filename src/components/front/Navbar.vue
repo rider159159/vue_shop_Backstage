@@ -142,8 +142,8 @@
   </div>
 </template>
 <script>
-import $ from "jquery";
-import { mapGetters, mapActions } from "vuex";
+import $ from 'jquery';
+import { mapGetters, mapActions } from 'vuex';
 
 export default {
   data() {
@@ -152,59 +152,59 @@ export default {
     };
   },
   methods: {
-    ...mapActions(["getCart"]),
+    ...mapActions(['getCart']),
     routerLink(to) {
-      $(".navbar").removeClass("active");
+      $('.navbar').removeClass('active');
       this.$router.push(`/${to}`);
-      $("html,body").animate(
+      $('html,body').animate(
         {
           scrollTop: 0,
         },
-        1000
+        1000,
       );
     },
     // 切換測選單用
     sideNavbarActive() {
-      $(".navbar").toggleClass("active");
+      $('.navbar').toggleClass('active');
     },
     // 添加 fixed-top
     scrollClass() {
       if ($(window).scrollTop() > 50) {
-        //顯示上面那層
-        $(".nav-wrap").addClass("fixed-top");
-        //順便開啟 tooltip 功能
-        $(function () {
+        // 顯示上面那層
+        $('.nav-wrap').addClass('fixed-top');
+        // 順便開啟 tooltip 功能
+        $(() => {
           $('[data-toggle="tooltip"]').tooltip();
         });
       } else {
-        $(".nav-wrap").removeClass("fixed-top");
+        $('.nav-wrap').removeClass('fixed-top');
       }
     },
     showModal() {
       const vm = this;
       //  如果購物車，沒有東西出現另一個 modal
       if (vm.cart.carts.length > 0) {
-        $(" #cartModal").modal("show");
+        $(' #cartModal').modal('show');
       } else {
-        $("#nullCartModal").modal("show");
+        $('#nullCartModal').modal('show');
       }
     },
     toCart() {
-      $("#cartModal").modal("hide");
-      $(".navbar").removeClass("active");
-      this.$router.push(`/cart`);
+      $('#cartModal').modal('hide');
+      $('.navbar').removeClass('active');
+      this.$router.push('/cart');
     },
     toProduct() {
-      $("#nullCartModal").modal("hide");
-      $(".navbar").removeClass("active");
-      this.$router.push(`/products`);
+      $('#nullCartModal').modal('hide');
+      $('.navbar').removeClass('active');
+      this.$router.push('/products');
     },
   },
   computed: {
-    ...mapGetters(["isLoading", "cart"]),
+    ...mapGetters(['isLoading', 'cart']),
   },
   mounted() {
-    window.addEventListener("scroll", this.scrollClass);
+    window.addEventListener('scroll', this.scrollClass);
     this.getCart();
   },
 };

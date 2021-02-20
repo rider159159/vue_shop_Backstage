@@ -142,8 +142,8 @@
   </div>
 </template>
 <script>
-import $ from "jquery";
-import Pagination from "@/components/back/Pagination";
+import $ from 'jquery';
+import Pagination from '@/components/back/Pagination.vue';
 
 export default {
   data() {
@@ -153,7 +153,7 @@ export default {
       isNew: false,
       pagination: {},
       // now_date 就是當前時間
-      now_date: new Date(), //Tue Apr 21 2020 17:48:24 GMT+0800 (台北標準時間)
+      now_date: new Date(), // Tue Apr 21 2020 17:48:24 GMT+0800 (台北標準時間)
     };
   },
   methods: {
@@ -175,18 +175,18 @@ export default {
         this.tempCoupon = {};
         this.isNew = true;
       } else {
-        //編輯
-        this.tempCoupon = Object.assign({}, item);
+        // 編輯
+        this.tempCoupon = { ...item };
         console.log(this.tempCoupon);
         this.isNew = false;
         //  將時間戳轉換成 年+月+日 ，ISO 格是可以反過來顯示在 HTML input 上
         const dateAndTime = new Date(vm.tempCoupon.now_date * 1000)
           .toISOString()
-          .split("T");
+          .split('T');
         vm.now_date = dateAndTime[0];
         console.log(vm.now_date);
       }
-      $("#couponModal").modal("show");
+      $('#couponModal').modal('show');
     },
     // 確認建立優惠卷
 
@@ -196,7 +196,7 @@ export default {
         const url = `${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/admin/coupon`;
         this.$http.post(url, { data: vm.tempCoupon }).then((response) => {
           console.log(response, vm.tempCoupon);
-          $("#couponModal").modal("hide");
+          $('#couponModal').modal('hide');
           this.getCoupons();
         });
       } else {
@@ -205,7 +205,7 @@ export default {
 
         this.$http.put(url, { data: vm.tempCoupon }).then((response) => {
           console.log(response);
-          $("#couponModal").modal("hide");
+          $('#couponModal').modal('hide');
           this.getCoupons();
         });
       }
@@ -234,7 +234,7 @@ export default {
     // 點擊刪除優惠卷
     openDelCoupon(item) {
       this.tempCoupon = item;
-      $("#delCouponModal").modal("show");
+      $('#delCouponModal').modal('show');
     },
     // 確任刪除優惠卷
     deleteCoupon() {
@@ -243,12 +243,12 @@ export default {
       this.$http.delete(api).then((response) => {
         console.log(response.data);
         if (response.data.success) {
-          $("#delCouponModal").modal("hide");
+          $('#delCouponModal').modal('hide');
           vm.getCoupons();
         } else {
-          $("#delCouponModal").modal("hide");
+          $('#delCouponModal').modal('hide');
           vm.getCoupons();
-          console.log("刪除失敗");
+          console.log('刪除失敗');
         }
       });
     },

@@ -6,15 +6,16 @@
   </div>
 </template>
 <script>
-import $ from "jquery";
+import $ from 'jquery';
+
 export default {
   methods: {
     scrollTop() {
-      $("html,body").animate(
+      $('html,body').animate(
         {
           scrollTop: 0,
         },
-        1500
+        1500,
       );
     },
   },

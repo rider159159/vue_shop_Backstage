@@ -64,9 +64,9 @@ export default {
   data() {
     return {
       order: {
-        user: {}
+        user: {},
       },
-      orderId: " "
+      orderId: ' ',
     };
   },
   methods: {
@@ -74,7 +74,7 @@ export default {
       const vm = this;
       const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/order/${vm.orderId}`;
       vm.isLoading = true;
-      this.$http.get(api).then(response => {
+      this.$http.get(api).then((response) => {
         console.log(response.data.order);
         vm.order = response.data.order;
         vm.isLoading = false;
@@ -84,20 +84,20 @@ export default {
       const vm = this;
       const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/pay/${vm.orderId}`;
       vm.isLoading = true;
-      this.$http.post(api).then(response => {
+      this.$http.post(api).then((response) => {
         console.log(response);
-        if(response.data.success){
-          vm.getOrder()
+        if (response.data.success) {
+          vm.getOrder();
         }
         vm.isLoading = false;
-      })
-    }
+      });
+    },
   },
   created() {
-    //獲得當前頁面的 orderId，ordeId 必須先獲取才能執行 getOrder
+    // 獲得當前頁面的 orderId，ordeId 必須先獲取才能執行 getOrder
     this.orderId = this.$route.params.orderId;
     this.getOrder();
     console.log(this.orderId);
-  }
-}
+  },
+};
 </script>

@@ -42,15 +42,18 @@
         <div class="input-group mb-3">
           <input type="text" class="form-control" v-model="coupon_code" placeholder="請輸入優惠碼" />
           <div class="input-group-append">
-            <button class="btn btn-outline-secondary" type="button" @click="addCouponCode">套用優惠卷</button>
+            <button class="btn btn-outline-secondary" type="button" 
+            @click="addCouponCode">
+            套用優惠卷
+            </button>
           </div>
         </div>
 
         <h3>結帳表單</h3>
-        <!-- 添加　slim 不會渲染成 span 標籤 -->
+        <!--添加 slim 不會渲染成 span 標籤 -->
         <ValidationObserver slim ref="form">
           <form class="col-md-12" @submit.prevent="createOrder">
-            <!-- name 錯誤提示顯示的名稱， v-slot 為提供的資訊 ，rules 有哪些驗證方法  -->
+            <!--name 錯誤提示顯示的名稱， v-slot 為提供的資訊 ，rules 有哪些驗證方法  -->
             <ValidationProvider name="name" v-slot="{ failed, errors }" rules="required">
               <div class="form-group">
                 <label for="username">*收件人姓名</label>
@@ -124,7 +127,9 @@
               ></textarea>
             </div>
             <div class="text-right">
-              <button class="btn btn-block btn-lg btn-primary text-white my-3 rounded-0">送出訂單</button>
+              <button class="btn btn-block btn-lg btn-primary text-white my-3 rounded-0">
+                送出訂單
+                </button>
             </div>
           </form>
         </ValidationObserver>
@@ -198,16 +203,16 @@ export default {
     // 確認刪除
     removeCart() {
       const vm = this;
-      //刪除的檔案 存在 temCart
-      const id = vm.tempCart.id;
+      // 刪除的檔案 存在 temCart
+      const { id } = vm.tempCart;
       this.$store.dispatch("removeCart", id);
       $("#delCartModal").modal("hide");
     },
     // 套用優惠卷
     addCouponCode() {
       const vm = this;
-      //刪除的檔案 存在 temCart
-      const id = vm.tempCart.id;
+      // 刪除的檔案 存在 temCart
+      const { id } = vm.tempCart;
       const coupon = {
         code: vm.coupon_code,
       };

@@ -40,55 +40,56 @@
 </template>
 
 <script>
-import $ from "jquery";
-import { Swiper, SwiperSlide } from "vue-awesome-swiper";
-import "swiper/css/swiper.css";
-import AOS from "aos";
-import "aos/dist/aos.css"; // You can also use <link> for styles
+import $ from 'jquery';
+import { Swiper, SwiperSlide } from 'vue-awesome-swiper';
+import 'swiper/css/swiper.css';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
+// You can also use <link> for styles
 AOS.init({
-  duration: 2000 //動畫時間
+  duration: 2000, // 動畫時間
 });
 export default {
-  name: "carrousel",
+  name: 'carrousel',
   data() {
     return {
       product: {
-        category: "carousel" //自訂名稱
+        category: 'carousel', // 自訂名稱
       },
       swiperOptions: {
         keyboard: true,
         speed: 1500, // 切換圖片滑動的速度
         loop: true, // 是否循環撥放
         navigation: {
-          nextEl: ".swiper-button-next",
-          prevEl: ".swiper-button-prev"
+          nextEl: '.swiper-button-next',
+          prevEl: '.swiper-button-prev',
         },
         pagination: {
-          el: ".swiper-pagination"
+          el: '.swiper-pagination',
         },
         // 自動撥放
         autoplay: {
           delay: 30000,
-          disableOnInteraction: false
+          disableOnInteraction: false,
         },
         on: {
-          slideChangeTransitionStart: function() {
-            $(".text").hide(0);
-            $(".text")
-              .removeClass("aos-init")
-              .removeClass("aos-animate");
+          slideChangeTransitionStart() {
+            $('.text').hide(0);
+            $('.text')
+              .removeClass('aos-init')
+              .removeClass('aos-animate');
           },
-          slideChangeTransitionEnd: function() {
-            $(".text").show(0);
+          slideChangeTransitionEnd() {
+            $('.text').show(0);
             AOS.init();
-          }
-        }
-      }
+          },
+        },
+      },
     };
   },
   components: {
     Swiper,
-    SwiperSlide
-  }
+    SwiperSlide,
+  },
 };
 </script>

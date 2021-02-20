@@ -35,30 +35,30 @@
 </template>
 
 <script>
-import Alter from "@/components/back/AlterMessage";
+import Alter from '@/components/back/AlterMessage';
 
 export default {
   data() {
     return {
       user: {
-        username: "",
-        password: "",
+        username: '',
+        password: '',
       },
     };
   },
   methods: {
     // 登入帳號的用法
-    signin: function () {
+    signin() {
       const api = `${process.env.VUE_APP_APIPATH}/admin/signin`;
       const vm = this;
       console.log(vm.user);
       this.$http.post(api, vm.user).then((response) => {
         if (response.data.success) {
-          vm.$router.push("/admin/back_products");
-          vm.$router.push("/admin");
+          vm.$router.push('/admin/back_products');
+          vm.$router.push('/admin');
         } else {
           console.log(response);
-          this.$bus.$emit("error:push", "帳號或密碼錯誤。請重新輸入", "danger");
+          this.$bus.$emit('error:push', '帳號或密碼錯誤。請重新輸入', 'danger');
         }
       });
     },
@@ -115,4 +115,3 @@ body {
   border-top-right-radius: 0;
 }
 </style>
-

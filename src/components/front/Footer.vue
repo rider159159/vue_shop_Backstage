@@ -88,14 +88,14 @@
 export default {
   methods: {
     //  啟動的該提示的函式，最後方會執行移除該提示的函式
-    //手動增加的訊息需要自己案 xx 才會消失，若由外部呼叫的 alter 5 秒後會消失
+    // 手動增加的訊息需要自己案 xx 才會消失，若由外部呼叫的 alter 5 秒後會消失
   // 此函示會藉由 event bus 觸發
-   updateMessage(message, status) {
+    updateMessage(message, status) {
       const timestamp = Math.floor(new Date() / 1000);
       this.messages.push({
         message,
         status,
-        timestamp
+        timestamp,
       });
       this.removeMessageWithTiming(timestamp);
     },
@@ -108,14 +108,14 @@ export default {
       setTimeout(() => {
         vm.messages.forEach((item, i) => {
           if (item.timestamp === timestamp) {
-            console.log(item,timestamp)
+            console.log(item, timestamp);
             vm.messages.splice(i, 1);
           }
         });
       }, 5000);
-    }
+    },
   },
-}
+};
 </script>
 
 <style scope>

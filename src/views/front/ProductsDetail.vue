@@ -41,48 +41,42 @@
   </div>
 </template>
 <script>
-import $ from "jquery";
+import $ from 'jquery';
 
 export default {
   data() {
     return {
       Cart: [],
-
-      itemID: "",
-      product: {}
+      itemID: '',
+      product: {},
     };
   },
   methods: {
     getProduct(id) {
       const vm = this;
       const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/product/${id}`;
-      vm.$http.get(api).then(response => {
-        console.log(response);
+      vm.$http.get(api).then((response) => {
         vm.product = response.data.product;
-        // vm.$set(vm.product, "buyNum", 1);
       });
     },
     addToCart(id, qty = 1) {
       console.log(123);
       const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart`;
-      const vm = this;
       const cart = {
         product_id: id,
-        qty
+        qty,
       };
-      this.$http.post(api, { data: cart }).then(response => {});
+      this.$http.post(api, { data: cart }).then((respose) => {
+        console.log(respose);
+      });
       this.getCart();
-    }
-  },
-  mounted() {
-    // $(".tooltip").tooltip("hide");
+    },
   },
   created() {
     const vm = this;
-    vm.itemID = vm.$route.params.id; // 須和路由設置一樣id名稱
+    vm.itemID = vm.$route.params.id; 
     vm.getProduct(vm.itemID);
-        $(".tooltip").tooltip("hide");
-
-  }
+    $('.tooltip').tooltip('hide');
+  },
 };
 </script>

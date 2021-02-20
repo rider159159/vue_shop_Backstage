@@ -88,13 +88,13 @@
 </template>
 
 <script>
-import $ from "jquery";
-import { Swiper, SwiperSlide, directive } from "vue-awesome-swiper";
-import "swiper/css/swiper.css";
-import { mapGetters, mapActions } from "vuex";
+import $ from 'jquery';
+import { Swiper, SwiperSlide, directive } from 'vue-awesome-swiper';
+import 'swiper/css/swiper.css';
+import { mapGetters, mapActions } from 'vuex';
 
 export default {
-  name: "carrousel",
+  name: 'carrousel',
   data() {
     const vm = this;
     return {
@@ -106,14 +106,14 @@ export default {
           disableOnInteraction: false,
         },
         on: {
-          click: function (e, qty) {
+          click(e, qty) {
             if (!e.target.dataset.num) return;
             // 指向 DOM 的 data 數字
-            let dataIndex = e.target.dataset.num;
+            const dataIndex = e.target.dataset.num;
             // 指向 Vue products[數字]
-            let products = vm.products[dataIndex];
-            let id = products.id;
-            vm.$store.dispatch("addtoCart", { id, qty });
+            const products = vm.products[dataIndex];
+            const { id } = products;
+            vm.$store.dispatch('addtoCart', { id, qty });
           },
         },
         speed: 1000, // 切換速度
@@ -128,27 +128,27 @@ export default {
           },
         },
         pagination: {
-          el: ".swiper-pagination",
+          el: '.swiper-pagination',
           clickable: true,
         },
         navigation: {
-          nextEl: ".swiper-button-next", // 下一個按鈕
-          prevEl: ".swiper-button-prev", // 上一個按鈕
+          nextEl: '.swiper-button-next', // 下一個按鈕
+          prevEl: '.swiper-button-prev', // 上一個按鈕
         },
       },
     };
   },
   methods: {
-    ...mapActions(["getProducts","addtoCart"]),
+    ...mapActions(['getProducts', 'addtoCart']),
     // 獲得商品在監聽，避免 tooltip 無法顯示
     tooltipList() {
-      $(function () {
+      $(() => {
         $('[data-toggle="tooltip"]').tooltip();
       });
     },
   },
   computed: {
-    ...mapGetters(["isLoading", "products"]),
+    ...mapGetters(['isLoading', 'products']),
   },
   mounted() {
     // 會執行 vuex 匯入的函式
@@ -164,4 +164,3 @@ export default {
   },
 };
 </script>
-

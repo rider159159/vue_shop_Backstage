@@ -1,9 +1,10 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
-Vue.use(VueRouter)
+import Vue from 'vue';
+import VueRouter from 'vue-router';
+
+Vue.use(VueRouter);
 
 const routes = [
-  //進入不存在頁面會是空白的，因此新增設定
+  // 進入不存在頁面會是空白的，因此新增設定
   {
     path: '*',
     redirect: 'Login',
@@ -51,8 +52,7 @@ const routes = [
         name: 'CartOver',
         component: () => import('../views/front/CartOver'),
       },
-
-    ]
+    ],
   },
 
   //  後臺頁面
@@ -109,10 +109,10 @@ const routes = [
     ],
   },
 
-]
+];
 
 const router = new VueRouter({
-  routes
-})
+  routes,
+});
 
-export default router
+export default router;

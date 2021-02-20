@@ -1,6 +1,6 @@
 <template>
   <div>
-    <loading :active.sync="isLoading"></loading>
+    <loading v-model:active="isLoading"></loading>
     <!-- 上方產品 -->
     <div class="row mt-4">
       <div class="col-md-4 mb-4" v-for="item in products" :key="item.id">
@@ -214,7 +214,7 @@
           <div class="modal-footer">
             <div class="text-muted text-nowrap mr-3">
               小計
-              <strong>{{ product.num * product.price | currency }}</strong> 元
+              <strong>{{ product.num * product.price | curren }}</strong> 元
             </div>
             <button
               type="button"
@@ -263,8 +263,8 @@
   </div>
 </template>
 <script>
-import Pagination from "@/components/back/Pagination";
-import $ from "jquery";
+import Pagination from '@/components/back/Pagination';
+import $ from 'jquery';
 
 export default {
   data() {
@@ -274,27 +274,27 @@ export default {
       pagination: {},
       product: {},
       cart: {
-        carts: {}
+        carts: {},
       },
 
       tempCart: {
         product: {
-          title: ""
-        }
+          title: "",
+        },
       },
-      coupon_code: "",
+      coupon_code: '',
       status: {
-        loadingItem: "" //存放的值就是產品 id
+        loadingItem: '', // 存放的值就是產品 id
       },
       form: {
         user: {
-          name: "",
-          email: "",
-          tel: "",
-          address: ""
+          name: '',
+          email: '',
+          tel: '',
+          address: '',
         },
-        message: ""
-      }
+        message: '',
+      },
     };
   },
   methods: {
@@ -303,26 +303,25 @@ export default {
       const vm = this;
       vm.isLoading = true;
       const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/products?page${page}`;
-      this.$http.get(api).then(response => {
+      this.$http.get(api).then((response) => {
         console.log(response.data);
         vm.products = response.data.products;
         // vm.isLoading = false;
       });
     },
 
-
     // 點擊查看更多時使用
     getProduct(id) {
       const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/product/${id}`;
-     const vm = this;
+      const vm = this;
       // 點擊後 status.loadingItem == item.id ，此時會顯示圖片
       vm.status.loadingItem = id;
-      this.$http.get(api).then(response => {
+      this.$http.get(api).then((response) => {
         vm.product = response.data.product;
-        vm.status.loadingItem = ""; // 將 status.loadingItem 取消
+        vm.status.loadingItem = ''; // 將 status.loadingItem 取消
         console.log(vm.status.loadingItem);
 
-        $("#productModal").modal("show");
+        $('#productModal').modal('show');
       });
     },
     // 加入購物車的函式，qty = 商品數量，如果直接加到購物車，數量使用預設的 1
@@ -331,14 +330,14 @@ export default {
       const vm = this;
       const cart = {
         product_id: id,
-        qty
+        qty,
       };
       vm.status.loadingItem = id; // vm.status.loadingItem 賦予商品 id
-      this.$http.post(api, { data: cart }).then(response => {
+      this.$http.post(api, { data: cart }).then((response) => {
         console.log(response);
-        vm.status.loadingItem = ""; // 判斷目前畫面上是哪一個元素正在讀取中
-        $("#productModal").modal("hide");
-        this.getOrder(); //加到購物車後要從新讀取購物車資料
+        vm.status.loadingItem = ''; // 判斷目前畫面上是哪一個元素正在讀取中
+        $('#productModal').modal('hide');
+        this.getOrder(); // 加到購物車後要從新讀取購物車資料
       });
     },
     // 獲得購物車商品的資料
@@ -346,7 +345,7 @@ export default {
       const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart`;
       const vm = this;
       vm.isLoading = true;
-      this.$http.get(api).then(response => {
+      this.$http.get(api).then((response) => {
         vm.isLoading = false;
         // this.$set(vm, "cart", response.data.data);
         vm.cart = response.data.data;
@@ -355,33 +354,33 @@ export default {
     },
     // 開啟刪除 Modal
     openDelModal(item) {
-      this.tempCart = Object.assign({}, item);
-      this.$set(this, "tempCart", item);
+      this.tempCart = { ...item };
+      this.$set(this, 'tempCart', item);
       this.test = this.tempCart.product.title;
-      $("#delCartModal").modal("show");
+      $('#delCartModal').modal('show');
     },
     // 確認刪除
     deleteCart() {
       const vm = this;
-      //刪除的檔案 存在 temCart
-      const id = vm.tempCart.id;
+      // 刪除的檔案 存在 temCart
+      const { id } = vm.tempCart;
       const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart/${id}`;
-      this.$http.delete(api).then(response => {
+      this.$http.delete(api).then((response) => {
         console.log(response);
-        $("#delCartModal").modal("hide");
+        $('#delCartModal').modal('hide');
         this.getOrder();
       });
     },
     // 套用優惠卷
     addCouponCode() {
       const vm = this;
-      //刪除的檔案 存在 temCart
-      const id = vm.tempCart.id;
+      // 刪除的檔案 存在 temCart
+      const { id } = vm.tempCart;
       const coupon = {
-        code: vm.coupon_code
+        code: vm.coupon_code,
       };
       const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/coupon`;
-      this.$http.post(api, { data: coupon }).then(response => {
+      this.$http.post(api, { data: coupon }).then((response) => {
         console.log(response);
         this.getOrder();
       });
@@ -393,11 +392,11 @@ export default {
       vm.isLoading = true;
       const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/order`;
       // VeeValidate 表單驗證功能，如果 input 都成功，success 回傳 true ，反之不通過回傳 false
-      this.$refs.form.validate().then(success => {
+      this.$refs.form.validate().then((success) => {
         if (success) {
           //  表單驗證通過才執行 post api 的動作
-          this.$http.post(api, { data: order }).then(response => {
-            console.log("訂單建立", response);
+          this.$http.post(api, { data: order }).then((response) => {
+            console.log('訂單建立', response);
             // 回傳訊息正確，跳轉至購物完成頁面
             if (response.data.success) {
               vm.$router.push(`/back_customer_checkorder/${response.data.orderId}`);
@@ -405,15 +404,15 @@ export default {
             vm.isLoading = false;
           });
         } else {
-          console.log("欄位不完整");
-                      vm.isLoading = false;
+          console.log('欄位不完整');
+          vm.isLoading = false;
         }
       });
-    }
+    },
   },
   created() {
     this.getProducts();
     this.getOrder();
-  }
+  },
 };
 </script>
